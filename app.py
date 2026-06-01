@@ -1,5 +1,6 @@
 import streamlit as st
 from utils.parser import extract_text_from_pdf
+from agents.candidate_agent import analyze_resume
 
 st.set_page_config(
     page_title="InterviewOS",
@@ -37,6 +38,23 @@ if resume:
         resume_text[:5000],
         height=300
     )
+
+    if st.button("Analyze Resume"):
+
+        with st.spinner("Analyzing Resume..."):
+
+            analysis = analyze_resume(
+                resume_text
+            )
+
+            st.subheader(
+                "Candidate Intelligence Report"
+            )
+
+            st.code(
+                analysis,
+                language="json"
+            )
 
 if job_description:
     st.success(
